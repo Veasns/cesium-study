@@ -1,0 +1,78 @@
+<!--
+ * @Description: 
+ * @Author: Veasns
+ * @Date: 2022-04-11 14:25:56
+ * @LastEditTime: 2022-04-11 17:10:21
+ * @LastEditors: Veasns
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="../libs/Cesium/Cesium.js"></script>
+  <link rel="stylesheet" href="../libs/Cesium/Widgets/widgets.css">
+  <style>
+    html,body{
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="cesiumContainer"></div>
+  <script>
+    Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIyMDIwZmQ5ZC03MTE3LTQ4ZTUtYTFhYS01MzBlZTNmYTlmMWEiLCJpZCI6NzM4NTQsImlhdCI6MTYzNzIyNTQ0N30.H2yfULRPnEYc3SZRVwujJjFU9oGN6rfd_SsKvfF6lNc'
+    var viewer = new Cesium.Viewer('cesiumContainer')
+    /*
+    1、WGS84经纬度坐标系（没有实际的对象）
+    2、WGS84弧度坐标系（Cartographic）
+    3、WGS84经纬度坐标系（Cartesian3）
+    4、WGS84经纬度坐标系（Cartesian2）
+    5、WGS84经纬度坐标系（Cartesian4）
+    */
+  // ====================   构建WGS84弧度坐标系
+  // const cartographic = new Cesium.Cartographic(longitude弧度,latitude弧度,height米) //构造函数法
+  // const cartographic = Cesium.Cartographic.fromDegrees(longitude经度,latitude纬度,height米) //静态函数法
+  // const cartographic = Cesium.Cartographic.fromRadians(longitude弧度,latitude弧度,height米) //静态函数法
+
+  // ====================   WGS84弧度坐标系 ====> 迪卡尔空间直角坐标系 -----通过经纬度进行转换
+  // const cartesian = Cesium.Cartesian3.fromDegrees(longitude经度,latitude纬度,height米)
+  // const cartesian = Cesium.Cartesian3.fromDegreesArray(coordinates) //coordinates为不带高度的数组 [-278.0,66.0,-123.0,55.0]
+  // const cartesian = Cesium.Cartesian3.fromDegreesArrayHeights(coordinates) //coordinates为带高度的数组 [-278.0,66.0,6000.0,-123.0,55.0,12000.0]
+
+  // ====================   经纬度转世界坐标
+  // 1、直接转换
+  // console.log(Cesium.Cartesian3.fromDegrees(116.39,39.91,400))
+  // 2、先转给弧度坐标系再转换
+  // const ellipsoid = viewer.scene.globe.ellipsoid
+  // const cartographic = Cesium.Cartographic.fromDegrees(116.39,39.91,400)
+  // const cartesian3 = ellipsoid.cartographicToCartesian(cartographic)
+  // console.log(cartesian3)
+  // ==================== 世界坐标转经纬度
+  // const ellipsoid = viewer.scene.globe.ellipsoid
+  // const cartesian3 = Cesium.Cartesian3.fromDegrees(116.39,39.91,400)
+  // const cartographic = ellipsoid.cartesianToCartographic(cartesian3)
+  // const lon = Cesium.Math.toDegrees(cartographic.longitude)
+  // const lat = Cesium.Math.toDegrees(cartographic.latitude)
+  // const alt = cartographic.height
+  // console.log(lon,lat,alt);
+  // 经纬度转弧度
+  // console.log(Cesium.Math.toRadians(116.39)); 
+  // console.log(Cesium.Math.toRadians(39.91)); 
+  // 弧度转经纬度
+  // console.log(Cesium.Math.toDegrees(Cesium.Math.toRadians(116.39)));
+  
+  // ======================= 屏幕坐标转WGS84坐标
+  // const cartesian3 = viewer.scene.pickPosition(Cartesian2)
+  // ======================= 屏幕坐标转地表坐标
+  // const cartesian3 = viewer.scene.globe.pick(viewer.camera.getPickRay(Cartesian2),viewer.scene)
+  // ======================= 屏幕坐标转椭球面坐标
+  // const cartesian3 = viewer.scene.camera.pickEllisoid(Cartesian2)
+  // ======================= 笛卡尔直角坐标系转平面坐标系
+  // const cartesian2 = Cesium.SceneTransforms.wgs84ToWindowCoordinates(viewer.scene,cartesian3)
+  </script>
+</body>
+</html>

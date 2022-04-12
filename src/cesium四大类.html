@@ -1,0 +1,58 @@
+<!--
+ * @Description: 
+ * @Author: Veasns
+ * @Date: 2022-04-11 10:20:21
+ * @LastEditTime: 2022-04-11 11:14:49
+ * @LastEditors: Veasns
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="../libs/Cesium/Cesium.js"></script>
+  <link rel="stylesheet" href="../libs/Cesium/Widgets/widgets.css">
+  <style>
+    html,body{
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="cesiumContainer"></div>
+  <script>
+    // viewer 查看器类 Sence 场景类 Entity 实体类 DataSourceCollection 数据源集体类
+    Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIyMDIwZmQ5ZC03MTE3LTQ4ZTUtYTFhYS01MzBlZTNmYTlmMWEiLCJpZCI6NzM4NTQsImlhdCI6MTYzNzIyNTQ0N30.H2yfULRPnEYc3SZRVwujJjFU9oGN6rfd_SsKvfF6lNc'
+    const viewer = new Cesium.Viewer('cesiumContainer',{
+      animation:false,
+      timeline:false
+    })
+    viewer.scene.globe.show = true
+    console.log(viewer.imageryLayers === viewer.scene.imageryLayers)
+    // const entity = viewer.entities.add({
+    //   position:Cesium.Cartesian3.fromDegrees(116.39,39.91,400),
+    //   point:{
+    //     pixelSize:100,
+    //     color:new Cesium.Color(1,0,0,1)
+    //   }
+    // })
+    // viewer.trackedEntity = entity
+
+    // DataSourceCollection 分为
+    // CzmlDatasource
+    // KmlDataSource
+    // GeoJsonDataSource
+    viewer.dataSources.add(
+      // Cesium.GeoJsonDataSource.load(
+      //   '../libs/SampleData/ne_10m_us_states.topojson'
+      // )
+      Cesium.KmlDataSource.load(
+        '../libs/SampleData/kml/gdpPerCapita2008.kmz'
+      )
+    )
+  </script>
+</body>
+</html>
