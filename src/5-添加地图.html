@@ -1,0 +1,43 @@
+<!--
+ * @Description: 
+ * @Author: Veasns
+ * @Date: 2022-04-12 10:10:48
+ * @LastEditTime: 2022-04-12 10:26:17
+ * @LastEditors: Veasns
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="../libs/Cesium/Cesium.js"></script>
+  <link rel="stylesheet" href="../libs/Cesium/Widgets/widgets.css">
+  <style>
+    html,body{
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="cesiumContainer"></div>
+  <script>
+    Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIyMDIwZmQ5ZC03MTE3LTQ4ZTUtYTFhYS01MzBlZTNmYTlmMWEiLCJpZCI6NzM4NTQsImlhdCI6MTYzNzIyNTQ0N30.H2yfULRPnEYc3SZRVwujJjFU9oGN6rfd_SsKvfF6lNc'
+    // const imageryProvider = new Cesium.ArcGisMapServerImageryProvider({
+    //   url:'https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer'
+    // })
+    // const imageryProvider = new Cesium.IonImageryProvider({
+    //   assetId:3812
+    // })
+    var viewer = new Cesium.Viewer('cesiumContainer',{
+      baseLayerPicker:false,
+      // imageryProvider,
+    })
+    viewer.imageryLayers.addImageryProvider(
+      new Cesium.IonImageryProvider({assetId:3812})
+    )
+  </script>
+</body>
+</html>

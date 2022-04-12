@@ -1,0 +1,145 @@
+<!--
+ * @Description: 
+ * @Author: Veasns
+ * @Date: 2022-04-12 15:45:32
+ * @LastEditTime: 2022-04-12 17:30:07
+ * @LastEditors: Veasns
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="../libs/Cesium/Cesium.js"></script>
+  <link rel="stylesheet" href="../libs/Cesium/Widgets/widgets.css">
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="cesiumContainer"></div>
+  <script>
+    Cesium.Ion.defaultAccessToken =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIyMDIwZmQ5ZC03MTE3LTQ4ZTUtYTFhYS01MzBlZTNmYTlmMWEiLCJpZCI6NzM4NTQsImlhdCI6MTYzNzIyNTQ0N30.H2yfULRPnEYc3SZRVwujJjFU9oGN6rfd_SsKvfF6lNc'
+    var viewer = new Cesium.Viewer('cesiumContainer')
+    const position = new Cesium.Cartesian3.fromDegrees(114.526761, 22.674641, 2000)
+    // ================== 点
+    // const point = viewer.entities.add({
+    //   position,
+    //   point:{
+    //     pixelSize:100,
+    //     color:new Cesium.Color(1,0,0,1)
+    //   }
+    // })
+    // ================= 线
+    // const line = viewer.entities.add({
+    //   polyline:{
+    //     positions:new Cesium.Cartesian3.fromDegreesArray([114.526761,22.674641,114.626761,22.674641]),
+    //     material:new Cesium.Color(1,0,0,1),
+    //     width:5,
+    //     show:true
+    //   }
+    // })
+    // ================ 多边形
+    // const polygon = viewer.entities.add({
+    //   polygon: {
+    //     fill: true,
+    //     material: new Cesium.Color(1, 0, 1, 1),
+    //     outline: true,
+    //     outlineColor: new Cesium.Color(0, 0, 0, 1),
+    //     outlineWidth: 4,
+    //     show: true,
+    //     // hierarchy:new Cesium.Cartesian3.fromDegreesArray([
+    //     //   114.526761,22.674641, //也可以设置高度
+    //     //   114.626761,22.674641,
+    //     //   114.626761,22.774641,
+    //     //   114.526761,22.774641,
+    //     // ]),
+    //     hierarchy: {
+    //       positions: Cesium.Cartesian3.fromDegreesArray([
+    //         -99.0,
+    //         30.0,
+    //         -85.0,
+    //         30.0,
+    //         -85.0,
+    //         40.0,
+    //         -99.0,
+    //         40.0,
+    //       ]),
+    //       holes: [{
+    //         positions: Cesium.Cartesian3.fromDegreesArray([
+    //           -97.0,
+    //           31.0,
+    //           -97.0,
+    //           39.0,
+    //           -87.0,
+    //           39.0,
+    //           -87.0,
+    //           31.0,
+    //         ]),
+    //         holes: [{
+    //           positions: Cesium.Cartesian3.fromDegreesArray([
+    //             -95.0,
+    //             33.0,
+    //             -89.0,
+    //             33.0,
+    //             -89.0,
+    //             37.0,
+    //             -95.0,
+    //             37.0,
+    //           ]),
+    //           holes: [{
+    //             positions: Cesium.Cartesian3.fromDegreesArray([
+    //               -93.0,
+    //               34.0,
+    //               -91.0,
+    //               34.0,
+    //               -91.0,
+    //               36.0,
+    //               -93.0,
+    //               36.0,
+    //             ]),
+    //           }, ],
+    //         }, ],
+    //       }, ],
+    //     },
+    //     extrudedHeight: 100
+    //   }
+    // })
+    // ===============面
+    // const plane = viewer.entities.add({
+    //   position,
+    //   plane:{
+    //     plane:new Cesium.Plane(Cesium.Cartesian3.UNIT_Z,0.0),
+    //     dimensions:new Cesium.Cartesian2(300,300),
+    //     material:new Cesium.Color(0,1,0,1),
+    //     outline:true,
+    //     outlineWidth:5,
+    //     outlineColor:new Cesium.Color(0,0,0,1)
+    //   }
+    // })
+    // =============== 椭圆
+    const ellipse = viewer.entities.add({
+      position,
+      ellipse:{
+        semiMinorAxis:300, // semiMinorAxis === semiMajorAxis 为圆
+        semiMajorAxis:300,
+        material:new Cesium.Color(1,1,0,1),
+        outline:true,
+        ontlineColor:new Cesium.Color(1,0,0,1),
+        outlineWidth:5
+      }
+    })
+    viewer.zoomTo(ellipse)
+  </script>
+</body>
+
+</html>

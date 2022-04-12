@@ -1,0 +1,74 @@
+<!--
+ * @Description: 
+ * @Author: Veasns
+ * @Date: 2022-04-11 17:11:00
+ * @LastEditTime: 2022-04-12 10:02:53
+ * @LastEditors: Veasns
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="../libs/Cesium/Cesium.js"></script>
+  <link rel="stylesheet" href="../libs/Cesium/Widgets/widgets.css">
+  <style>
+    html,body{
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="cesiumContainer"></div>
+  <script>
+    Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIyMDIwZmQ5ZC03MTE3LTQ4ZTUtYTFhYS01MzBlZTNmYTlmMWEiLCJpZCI6NzM4NTQsImlhdCI6MTYzNzIyNTQ0N30.H2yfULRPnEYc3SZRVwujJjFU9oGN6rfd_SsKvfF6lNc'
+    var viewer = new Cesium.Viewer('cesiumContainer')
+    const position = Cesium.Cartesian3.fromDegrees(114.526761,22.674641,2000)
+    // ===================== setView
+    // viewer.scene.camera.setView({
+    //   destination:position,
+    //   orientation:{
+    //     heading:Cesium.Math.toRadians(0), //控制视口方向的水平旋转，也就是沿着y轴旋转
+    //     pitch:Cesium.Math.toRadians(-90), //控制视口方向的上下旋转，也就是沿着x轴旋转
+    //     roll:0 //控制视口方的翻滚角度，也就是沿着z轴旋转
+    //   }
+    // })
+    // ===================== flyTo
+    viewer.scene.camera.flyTo({
+      destination:position,
+      orientation:{
+        heading:Cesium.Math.toRadians(0),
+        pitch:Cesium.Math.toRadians(-90),
+        roll:0
+      },
+      duration:5,
+      complete:function(){ //飞行完成时触发
+        console.log('飞行完成')
+     }
+    })
+    // ===================== lookAt
+    // const center = Cesium.Cartesian3.fromDegrees(114.526761,22.674641)
+    // const heading = Cesium.Math.toRadians(0)
+    // console.log(heading)
+    // const pitch = Cesium.Math.toRadians(-30)
+    // const range = 2500
+    // viewer.camera.lookAt(center,new Cesium.HeadingPitchRange(heading,pitch,range))
+    // ===================== viewBoundingSphere
+    // const orientation = Cesium.Transforms.headingPitchRollQuaternion(position,new Cesium.HeadingPitchRoll(-90,0,0))
+    // const entity = viewer.entities.add({
+    //   position,
+    //   orientation,
+    //   model:{
+    //     uri:'../libs/SampleData/models/CesiumAir/Cesium_Air.glb',
+    //     miniPixelSize:100,
+    //     maxiScale:10000,
+    //     show:true
+    //   }
+    // })
+    // viewer.camera.viewBoundingSphere(new Cesium.BoundingSphere(position,20),new Cesium.HeadingPitchRoll(0,0,0))
+  </script>
+</body>
+</html>
