@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Veasns
  * @Date: 2022-04-12 15:45:32
- * @LastEditTime: 2022-04-12 17:30:07
+ * @LastEditTime: 2022-04-13 10:57:36
  * @LastEditors: Veasns
 -->
 <!DOCTYPE html>
@@ -120,25 +120,55 @@
     //   plane:{
     //     plane:new Cesium.Plane(Cesium.Cartesian3.UNIT_Z,0.0),
     //     dimensions:new Cesium.Cartesian2(300,300),
-    //     material:new Cesium.Color(0,1,0,1),
+    //     material:new Cesium.Color(0,1,0,1), //支持放入图片地址
     //     outline:true,
     //     outlineWidth:5,
-    //     outlineColor:new Cesium.Color(0,0,0,1)
+    //     outlineColor:new Cesium.Color(0,0,0,1),
+    //     extrudedHeight:100
     //   }
     // })
     // =============== 椭圆
-    const ellipse = viewer.entities.add({
-      position,
-      ellipse:{
-        semiMinorAxis:300, // semiMinorAxis === semiMajorAxis 为圆
-        semiMajorAxis:300,
-        material:new Cesium.Color(1,1,0,1),
-        outline:true,
-        ontlineColor:new Cesium.Color(1,0,0,1),
-        outlineWidth:5
-      }
-    })
-    viewer.zoomTo(ellipse)
+    // const ellipse = viewer.entities.add({
+    //   position,
+    //   ellipse:{
+    //     semiMinorAxis:300, // semiMinorAxis === semiMajorAxis 为圆
+    //     semiMajorAxis:300,
+    //     material:new Cesium.Color(1,1,0,1),
+    //     outline:true,
+    //     ontlineColor:new Cesium.Color(1,0,0,1),
+    //     outlineWidth:5,
+    //     extrudedHeight:100
+    //   }
+    // })
+    // =============== 模型
+    // const orientation = Cesium.Transforms.headingPitchRollQuaternion(position,new Cesium.HeadingPitchRoll(-90,0,0))
+    // const planeAir = viewer.entities.add({
+    //   position,
+    //   orientation,
+    //   model:{
+    //     uri:'../libs/SampleData/models/CesiumAir/Cesium_Air.glb',
+    //     minimumPixelSize:100,
+    //     maxmumScale:10000,
+    //     show:true
+    //   }
+    // })
+    // viewer.trackedEntity = planeAir
+    // ================= 文字
+    // const label = viewer.entities.add({
+    //   position,
+    //   label:{
+    //     font:'50px Helvetica',
+    //     fillColor:Cesium.Color.RED,
+    //     text:'Veasns',
+    //     showBackground:true,// 为TRUE才能设置背景相关
+    //     backgroundColor:Cesium.Color.BLACK,
+    //     backgroundPadding:new Cesium.Cartesian2(10,10),
+    //     style:Cesium.LabelStyle.FILL_AND_OUTLINE, //添加FILL_AND_OUTLINE才能设置边框
+    //     outlineColor:Cesium.Color.SKYBLUE,
+    //     outlineWidth:10
+    //   }
+    // })
+    viewer.zoomTo(label)
   </script>
 </body>
 

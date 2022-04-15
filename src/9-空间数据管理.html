@@ -1,0 +1,73 @@
+<!--
+ * @Description: 
+ * @Author: Veasns
+ * @Date: 2022-04-13 11:00:38
+ * @LastEditTime: 2022-04-13 13:40:29
+ * @LastEditors: Veasns
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="../libs/Cesium/Cesium.js"></script>
+  <link rel="stylesheet" href="../libs/Cesium/Widgets/widgets.css">
+  <style>
+    html,body{
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="cesiumContainer"></div>
+  <script>
+    Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIyMDIwZmQ5ZC03MTE3LTQ4ZTUtYTFhYS01MzBlZTNmYTlmMWEiLCJpZCI6NzM4NTQsImlhdCI6MTYzNzIyNTQ0N30.H2yfULRPnEYc3SZRVwujJjFU9oGN6rfd_SsKvfF6lNc'
+    var viewer = new Cesium.Viewer('cesiumContainer')
+    const skyBluePolygon = viewer.entities.add({
+      id:'1',
+      polygon:{
+        hierarchy:new Cesium.Cartesian3.fromDegreesArray([
+          114.526761,22.664641, //也可以设置高度
+          114.536761,22.664641,
+          114.536761,22.674641,
+        ]),
+        material:Cesium.Color.SKYBLUE,
+        extrudedHeight:100
+      }
+    })
+    const redPolygon = viewer.entities.add({
+      id:'2',
+      polygon:{
+        hierarchy:new Cesium.Cartesian3.fromDegreesArray([
+          114.516761,22.664641, //也可以设置高度
+          114.526761,22.664641,
+          114.526761,22.674641,
+        ]),
+        material:Cesium.Color.RED,
+        extrudedHeight:100
+      }
+    })
+    const ORANGEPolygon = viewer.entities.add({
+      id:'3',
+      polygon:{
+        hierarchy:new Cesium.Cartesian3.fromDegreesArray([
+          114.516761,22.654641, //也可以设置高度
+          114.526761,22.654641,
+          114.526761,22.664641,
+        ]),
+        material:Cesium.Color.ORANGE,
+        extrudedHeight:100
+      }
+    })
+    viewer.zoomTo(redPolygon)
+
+    // viewer.entities.remove(ORANGEPolygon) //根据对象删除
+    // viewer.entities.getById('1').polygon.material = Cesium.Color.BLUE //修改对象的属性
+    // viewer.entities.removeAll() //删除全部entities
+    // viewer.entities.removeById('1') //根据id删除
+  </script>
+</body>
+</html>

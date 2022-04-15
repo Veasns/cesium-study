@@ -1,0 +1,66 @@
+<!--
+ * @Description: 
+ * @Author: Veasns
+ * @Date: 2022-04-13 14:17:52
+ * @LastEditTime: 2022-04-13 15:00:56
+ * @LastEditors: Veasns
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="../libs/Cesium/Cesium.js"></script>
+  <link rel="stylesheet" href="../libs/Cesium/Widgets/widgets.css">
+  <style>
+    html,body{
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="cesiumContainer"></div>
+  <script>
+    Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIyMDIwZmQ5ZC03MTE3LTQ4ZTUtYTFhYS01MzBlZTNmYTlmMWEiLCJpZCI6NzM4NTQsImlhdCI6MTYzNzIyNTQ0N30.H2yfULRPnEYc3SZRVwujJjFU9oGN6rfd_SsKvfF6lNc'
+    var viewer = new Cesium.Viewer('cesiumContainer')
+    const position = new Cesium.Cartesian3.fromDegrees(114.526761, 22.674641, 2000)
+    const label = viewer.entities.add({
+      id:'Veasns',
+      position,
+      label:{
+        font:'50px Helvetica',
+        fillColor:Cesium.Color.RED,
+        text:'Veasns',
+        showBackground:true,// 为TRUE才能设置背景相关
+        backgroundColor:Cesium.Color.BLACK,
+        backgroundPadding:new Cesium.Cartesian2(10,10),
+        style:Cesium.LabelStyle.FILL_AND_OUTLINE, //添加FILL_AND_OUTLINE才能设置边框
+        outlineColor:Cesium.Color.SKYBLUE,
+        outlineWidth:10
+      },
+      description:`
+      <div>
+        <h3>Veasns</h3>  
+        <h3>
+          这是一个非常爱学习的作者。  
+        </h3>
+      <div>`
+    })
+    viewer.zoomTo(label)
+    // viewer.scene.pick 返回包含给定窗口位置基元的对象
+    // viewer.scene.drillpick 返回给定窗口位置所有对象的列表
+    // viewer.Globe.pick 返回给定光线和地形的交点
+    const handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas)
+    handler.setInputAction((movement) => {
+      const pick = viewer.scene.pick(movement.position)
+      console.log(pick);
+      if (pick && pick.id.id === 'Veasns') {
+        alert('点击捕获成功！')
+      }
+    },Cesium.ScreenSpaceEventType.LEFT_CLICK)
+  </script>
+</body>
+</html>

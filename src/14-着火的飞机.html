@@ -1,0 +1,116 @@
+<!--
+ * @Description: 
+ * @Author: Veasns
+ * @Date: 2022-04-14 16:54:00
+ * @LastEditTime: 2022-04-15 11:24:10
+ * @LastEditors: Veasns
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="../libs/Cesium/Cesium.js"></script>
+  <link rel="stylesheet" href="../libs/Cesium/Widgets/widgets.css">
+  <style>
+    html,body{
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="cesiumContainer"></div>
+  <script>
+    Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIyMDIwZmQ5ZC03MTE3LTQ4ZTUtYTFhYS01MzBlZTNmYTlmMWEiLCJpZCI6NzM4NTQsImlhdCI6MTYzNzIyNTQ0N30.H2yfULRPnEYc3SZRVwujJjFU9oGN6rfd_SsKvfF6lNc'
+    var viewer = new Cesium.Viewer('cesiumContainer')
+    // 设置时钟和时间线
+    const start = Cesium.JulianDate.fromDate(new Date())
+    const stopCenter = Cesium.JulianDate.addSeconds(start,120,new Cesium.JulianDate())
+    const stop = Cesium.JulianDate.addSeconds(stopCenter,120,new Cesium.JulianDate())
+    viewer.clock.startTime = start.clone()
+    viewer.clock.stopTime = stop.clone()
+    viewer.clock.currentTime = start.clone()
+    viewer.clock.clockRange = Cesium.ClockRange.LOOP_STOP;
+    viewer.clock.multiplier = 1
+    viewer.clock.shouldAnimate = true
+    viewer.timeline.zoomTo(start,stop)
+    // 创建飞机模型的时间节点位置
+    const p1 = new Cesium.Cartesian3.fromDegrees(114.526761,22.674641,1500)
+    const p2 = new Cesium.Cartesian3.fromDegrees(114.526761,22.704641,1500)
+    const position = new Cesium.SampledPositionProperty()
+    position.addSample(start,p1)
+    position.addSample(stop,p2)
+    const entity = viewer.entities.add({
+      position,
+      orientation:new Cesium.VelocityOrientationProperty(position),
+      viewFrom:new Cesium.Cartesian3(-100,-90,100),
+      model:{
+        uri:'../libs/SampleData/models/CesiumAir/Cesium_Air.glb',
+        miniPixelSize:100,
+        maxiScale:10000,
+        show:true
+      }
+    })
+    // 创建飞行轨迹线
+    const polyLine = viewer.entities.add({
+      polyline:{
+        positions:new Cesium.Cartesian3.fromDegreesArrayHeights([114.526761,22.674641,1500,114.526761,22.704641,1500]),
+        material:Cesium.Color.ORANGE,
+        width:5,
+        show:true
+      }
+    })
+    // 绑定粒子发射器并且计算粒子发射器的实时位置
+    const computeModelMatrix = (entity, time) => {
+      return entity.computeModelMatrix(time,new Cesium.Matrix4())
+    }
+    const emitterModelMatrix = new Cesium.Matrix4();
+    const translation = new Cesium.Cartesian3();
+    const rotation = new Cesium.Quaternion();
+    let hpr = new Cesium.HeadingPitchRoll();
+    const trs = new Cesium.TranslationRotationScale();
+    //计算发射器与绑定entity的偏移
+    const computeEmitterModelMatrix = () => {
+      hpr = Cesium.HeadingPitchRoll.fromDegrees(0.0, 0.0, 0.0, hpr);
+      trs.translation = Cesium.Cartesian3.fromElements(
+        -14.0,//前后
+        0.0, //左右
+        1.4,//上下
+        translation
+      );
+      trs.rotation = Cesium.Quaternion.fromHeadingPitchRoll(hpr, rotation);
+
+      return Cesium.Matrix4.fromTranslationRotationScale(
+        trs,
+        emitterModelMatrix
+      );
+    }
+    // 创建火焰粒子
+    const fire = viewer.scene.primitives.add(
+      new Cesium.ParticleSystem({
+        image:'../libs/SampleData/fire.png',
+        imageSize:new Cesium.Cartesian2(20,20),
+        startScale:1,
+        endScale:4,
+        particleLife:1,
+        speed:5,
+        emitter:new Cesium.CircleEmitter(5,5),
+        emissionRate:5,
+        modelMatrix:computeModelMatrix(entity,viewer.clock.startTime),
+        emitterModelMatrix:computeEmitterModelMatrix(),
+        lifetime:16
+      })
+    )
+    // 监听场景时间变化并重新变化粒子发射器位置
+    viewer.scene.preUpdate.addEventListener((scene,time) => {
+      fire.modelMatrix = computeModelMatrix(entity,time)
+      fire.emitterModelMatrix = computeEmitterModelMatrix()
+    })
+    viewer.trackedEntity = entity
+    // viewer.zoomTo(polyLine)
+  </script>
+</body>
+</html>

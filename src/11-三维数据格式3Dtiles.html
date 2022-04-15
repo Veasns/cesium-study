@@ -1,0 +1,97 @@
+<!--
+ * @Description: 
+ * @Author: Veasns
+ * @Date: 2022-04-13 15:03:34
+ * @LastEditTime: 2022-04-14 09:36:07
+ * @LastEditors: Veasns
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="../libs/Cesium/Cesium.js"></script>
+  <link rel="stylesheet" href="../libs/Cesium/Widgets/widgets.css">
+  <style>
+    html,body{
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="cesiumContainer"></div>
+  <script>
+    Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIyMDIwZmQ5ZC03MTE3LTQ4ZTUtYTFhYS01MzBlZTNmYTlmMWEiLCJpZCI6NzM4NTQsImlhdCI6MTYzNzIyNTQ0N30.H2yfULRPnEYc3SZRVwujJjFU9oGN6rfd_SsKvfF6lNc'
+    var viewer = new Cesium.Viewer('cesiumContainer')
+    const position = new Cesium.Cartesian3.fromDegrees(114.526761, 22.674641, 2000)
+    const tileset = new Cesium.Cesium3DTileset({
+      url:'../libs/SampleData/Cesium3DTiles/Hierarchy/BatchTableHierarchy/tileset.json',
+      maximumScreenSpaceError:2,
+    })
+    let tileDataList = []
+    tileset.tileLoad.addEventListener((tile) => {
+      const cesium3DTileContent = tile.content
+      const featuresLength = cesium3DTileContent.featuresLength
+      // 获取3Dtile里面的属性数据集
+      tileDataList = []
+      for (let i = 0; i < featuresLength; i++) {
+        const cesium3DTileFeature = cesium3DTileContent.getFeature(i)
+        const propertyNames = cesium3DTileFeature.getPropertyNames()
+        let obj = {}
+        propertyNames.forEach(m => {
+          obj['class'] = cesium3DTileFeature.getExactClassName()
+          obj[m] = cesium3DTileFeature.getProperty(m)
+        })
+        tileDataList.push(obj)
+      }
+      console.log(tileDataList)
+    });
+    viewer.scene.primitives.add(tileset)
+    viewer.zoomTo(tileset,new Cesium.HeadingPitchRange(0.0, -0.3, 0.0))
+    // const style = new Cesium.Cesium3DTileStyle({
+    //   color:{
+    //     conditions:[
+    //       ['${building_name} === "building0"','color("purple",0.8)'],
+    //       ['${building_name} === "building1"','color("red",0.8)'],
+    //       ['${building_name} === "building2"','color("orange",0.8)'],
+    //     ]
+    //   }
+    // })
+    // const style = new Cesium.Cesium3DTileStyle({
+    //   color:{
+    //     conditions:[
+    //       ["isClass('door')",'color("orange")'],
+    //       ['true','color("white")'],
+    //     ]
+    //   }
+    // })
+    // const style = new Cesium.Cesium3DTileStyle({
+    //   defines: {
+    //     suffix: "regExp('door(.*)').exec(getExactClassName())",
+    //   },
+    //   color: {
+    //     conditions: [
+    //       ["${suffix} === 'knob'", "color('yellow')"],
+    //       ["${suffix} === ''", "color('red')"],
+    //       ["${suffix} === null", "color('white')"],
+    //       ["true", "color('blue')"],
+    //     ],
+    //   },
+    // })
+    const style = new Cesium.Cesium3DTileStyle({
+      color: {
+        conditions: [
+          ["${height} >= 10", "color('purple')"],
+          ["${height} >= 6", "color('red')"],
+          ["${height} >= 5", "color('orange')"],
+          ["true", "color('blue')"],
+        ],
+      },
+    })
+    tileset.style = style
+  </script>
+</body>
+</html>
